@@ -31,10 +31,23 @@ else:
 
 @app.before_request
 def before_request() -> None:
-    """ Function executed before each request """
-    if auth:
-        request.current_user = auth.current_user(request)
+    """Executed before each request."""
+    excluded_paths = ['/api/v1/status/',
+                      '/api/v1/unauthorized/',
+                      '/api/v1/forbidden/',
+                      '/api/v1/auth_session/login/']
 
+    if auth:
+        # Check if the request requires authentication
+        if not auth.require_auth(request.path, excluded_paths):
+            return
+
+        # If no authorization header and no session cookie, abort with 401
+        if auth.authorization_header(request) is None and auth.session_cookie(request) is None:
+            abort(401)
+
+        # Set the current user from the request
+        request.current_user = auth.current_user(request)
 
 @app.errorhandler(404)
 def not_found(error) -> str:
