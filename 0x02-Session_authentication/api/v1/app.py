@@ -2,12 +2,11 @@
 """
 Route module for the API
 """
-from os import getenv
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
 from api.v1.views import app_views
 from api.v1.auth.auth import Auth
-from api.v1.auth.basic_auth import BasicAuth
+from api.v1.auth.session_auth import SessionAuth
 from os import getenv
 
 
@@ -15,18 +14,18 @@ app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
-auth = None
 
 auth_type = getenv("AUTH_TYPE", 'auth')
-if auth_type == 'auth':
-    auth = Auth()
+auth = None
+auth_type = getenv('AUTH_TYPE')
 
-if auth_type == 'basic_auth':
-    auth = BasicAuth()
-elif auth_type == 'session_auth':
-    auth = Auth()
+if auth_type == 'session_auth':
+    from api.v1.auth.session_auth import SessionAuth
+    auth = SessionAuth()
 else:
-    auth = Auth()
+    # Fallback to other auth mechanisms (e.g., BasicAuth)
+    from api.v1.auth.basic_auth import BasicAuth
+    auth = BasicAuth()
 
 
 @app.before_request
