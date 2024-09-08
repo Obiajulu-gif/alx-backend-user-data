@@ -5,6 +5,7 @@ Authentication Module
 from flask import request
 from typing import List, TypeVar
 import fnmatch
+import os
 
 
 class Auth:
@@ -56,3 +57,19 @@ class Auth:
         a Flask request object
         """
         return None
+
+    def session_cookie(self, request=None):
+        """
+        Retrieve the session cookie from the request.
+
+        Args:
+            request: Flask request object
+
+        Returns:
+            value of the session cookie
+        """
+        if request is None:
+            return None
+
+        cookie_name = os.getenv("SESSION_NAME", "_my_session_id")
+        return request.cookies.get(cookie_name)
