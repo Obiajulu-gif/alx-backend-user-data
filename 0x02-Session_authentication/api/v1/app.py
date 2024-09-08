@@ -43,11 +43,13 @@ def before_request() -> None:
             return
 
         # If no authorization header and no session cookie, abort with 401
-        if auth.authorization_header(request) is None and auth.session_cookie(request) is None:
+        if auth.authorization_header(
+                request) is None and auth.session_cookie(request) is None:
             abort(401)
 
         # Set the current user from the request
         request.current_user = auth.current_user(request)
+
 
 @app.errorhandler(404)
 def not_found(error) -> str:
