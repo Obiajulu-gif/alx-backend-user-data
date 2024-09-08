@@ -4,6 +4,7 @@ Authentication Module
 """
 from flask import request
 from typing import List, TypeVar
+import fnmatch
 
 
 class Auth:
@@ -11,25 +12,30 @@ class Auth:
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """
-        Method to check if authentication is required for a given path
+        Determine if the path requires authentication based on excluded paths.
+
+        Args:
+            path (str): The request path.
+            excluded_paths (List[str]): A list of paths or patterns to exclude
+            from authentication.
+
         Returns:
-            - True if path is None or excluded_paths is None or empty
-            - True if path does not match any path in excluded_paths
-            - False if the path matches any in excluded_paths (slash tolerant)
+            bool: True if the path requires authentication, False otherwise.
         """
         if path is None:
             return True
-
-        if not excluded_paths or len(excluded_paths) == 0:
+        if not excluded_paths:
             return True
 
-        if not path.endswith('/'):
-            path += '/'
+        # Normalize path by ensuring it ends with a '/'
+        normalized_path = path if path.endswith('/') else path + '/'
 
         for excluded_path in excluded_paths:
-            if not excluded_path.endswith('/'):
-                excluded_path += '/'
-            if path == excluded_path:
+            # Normalize excluded_path by ensuring it ends with a '/'
+            normalized_excluded_path = excluded_path if excluded_path.endswith(
+                '/') else excluded_path + '/'
+            # Use fnmatch to handle wildcard matching
+            if fnmatch.fnmatch(normalized_path, normalized_excluded_path):
                 return False
 
         return True
