@@ -23,6 +23,7 @@ class Auth:
 
     def current_user(self, request=None) -> TypeVar('User'):
         """
-        Method to retrieve the current user from a user from a Flask request object
+        Method to retrieve the current user from a user from
+        a Flask request object
         """
         return None
