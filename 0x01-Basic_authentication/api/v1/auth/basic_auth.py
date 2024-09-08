@@ -3,7 +3,9 @@
 BasicAuth Module for handling basic authentication
 """
 import base64
+from typing import TypeVar
 from api.v1.auth.auth import Auth
+from models.user import User
 
 
 class BasicAuth(Auth):
