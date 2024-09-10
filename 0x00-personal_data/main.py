@@ -3,10 +3,17 @@
 Main file
 """
 
-import logging
+get_db = __import__('filtered_logger').get_db
 
-get_logger = __import__('filtered_logger').get_logger
-PII_FIELDS = __import__('filtered_logger').PII_FIELDS
+# Establish the connection to the database
+db = get_db()
+cursor = db.cursor()
 
-print(get_logger.__annotations__.get('return'))
-print("PII_FIELDS: {}".format(len(PII_FIELDS)))
+# Execute a simple query
+cursor.execute("SELECT COUNT(*) FROM users;")
+for row in cursor:
+    print(row[0])
+
+# Close cursor and connection
+cursor.close()
+db.close()
