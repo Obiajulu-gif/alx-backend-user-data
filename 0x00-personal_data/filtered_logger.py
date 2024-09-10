@@ -92,7 +92,7 @@ def get_db() -> MySQLConnection:
     """
 
     username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
-    password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
+    password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "root")
     host = os.getenv("PERSONAL_DATA_DB_HOST", "localhost")
     db_name = os.getenv("PERSONAL_DATA_DB_NAME")
 
