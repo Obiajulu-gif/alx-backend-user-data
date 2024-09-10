@@ -79,7 +79,7 @@ def get_logger() -> logging.Logger:
     stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
 
     logger.addHandler(stream_handler)
-
+    return logger
 
 def get_db() -> MySQLConnection:
     """
