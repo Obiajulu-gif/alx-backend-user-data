@@ -81,6 +81,7 @@ def get_logger() -> logging.Logger:
     logger.addHandler(stream_handler)
     return logger
 
+
 def get_db() -> MySQLConnection:
     """
     Connect to the MySQL database using credentials from
