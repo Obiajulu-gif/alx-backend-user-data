@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import bcrypt
 """
 hash_password function that expects one string
