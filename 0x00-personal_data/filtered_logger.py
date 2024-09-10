@@ -3,8 +3,10 @@
  a function called filter_datum that returns the log message obfuscated
 """
 import re
-from typing import List
+from typing import List, Tuple
 import logging
+
+PII_FIELDS: Tuple[str, ...] = ("name", "email", "ssn", "password", "phone")
 
 
 def filter_datum(
@@ -57,3 +59,19 @@ class RedactingFormatter(logging.Formatter):
             record.getMessage(),
             self.SEPARATOR)
         return super().format(record)
+
+def get_logger() -> logging.Logger:
+    """
+    Creates and returns a logger named 'user_data' with a
+    RedactingFormatter
+    """
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+
+    logger.propagate = False
+
+    stream_handler = logging.StreamHandler()
+
+    stream_handler.setFormatter(RedactingFormatter(PII_FIELDS))
+
+    logger.addHandler(stream_handler)
