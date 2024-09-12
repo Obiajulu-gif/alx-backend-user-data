@@ -87,14 +87,14 @@ def logout():
         abort(403)
 
     # Find the user associated with the session_id
-    user = auth.get_user_from_session_id(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
 
     if user is None:
         # If no user is found for this session_id, return a 403 response
         abort(403)
 
     # Destroy the session (logout the user)
-    auth.destroy_session(user.id)
+    AUTH.destroy_session(user.id)
 
     # Redirect to the home page
     return redirect('/')
