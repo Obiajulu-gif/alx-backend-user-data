@@ -119,7 +119,7 @@ def profile():
         abort(403)
 
     # Find the user associated with the session_id
-    user = auth.get_user_from_session_id(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
 
     if user is None:
         # If no user is found for this session_id, return a 403 response
