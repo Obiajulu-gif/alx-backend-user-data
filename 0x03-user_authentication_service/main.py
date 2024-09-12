@@ -1,9 +1,14 @@
+#!/usr/bin/env python3
+"""
+End-to-end integration test
+"""
 import requests
 
 BASE_URL = "http://localhost:5000"
 
 
 def register_user(email: str, password: str) -> None:
+    """Register user for testing"""
     response = requests.post(
         f"{BASE_URL}/users",
         data={
@@ -14,6 +19,7 @@ def register_user(email: str, password: str) -> None:
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
+    """Login user in wrong password for testing"""
     response = requests.post(
         f"{BASE_URL}/sessions",
         data={
@@ -23,6 +29,7 @@ def log_in_wrong_password(email: str, password: str) -> None:
 
 
 def log_in(email: str, password: str) -> str:
+    """Login in user for testing """
     response = requests.post(
         f"{BASE_URL}/sessions",
         data={
@@ -35,6 +42,7 @@ def log_in(email: str, password: str) -> str:
 
 
 def profile_unlogged() -> None:
+    """Check profile unlogged for testing"""
     response = requests.get(f"{BASE_URL}/profile")
     assert response.status_code == 403
 
