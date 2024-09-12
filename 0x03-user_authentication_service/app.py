@@ -148,7 +148,7 @@ def get_reset_password_token():
 
     try:
         # Generate the reset token using Auth.get_reset_password_token
-        reset_token = auth.get_reset_password_token(email)
+        reset_token = AUTH.get_reset_password_token(email)
 
         # Respond with the email and reset token
         return jsonify({"email": email, "reset_token": reset_token}), 200
