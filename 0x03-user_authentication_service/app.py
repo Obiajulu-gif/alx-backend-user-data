@@ -43,20 +43,26 @@ def register_user():
 def login():
     """
     POST /sessions route for user login.
-    Accepts email and password as form data and create a new session
+    Accepts email and password as form data and creates a new session
     if the login is valid, otherwise responds with 401.
     """
+    # Get email and password from the request form
     email = request.form.get('email')
     password = request.form.get('password')
 
+    # Validate email and password
     if not auth.valid_login(email, password):
+        # If invalid, return 401 Unauthorized
         abort(401)
 
+    # Create a new session for the user
     session_id = auth.create_session(email)
 
     if session_id is None:
+        # If session creation fails, return 401 Unauthorized
         abort(401)
 
+    # Prepare the response with session_id in the cookie
     response = make_response(jsonify({"email": email, "message": "logged in"}))
     response.set_cookie("session_id", session_id)
 
