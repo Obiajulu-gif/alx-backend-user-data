@@ -160,3 +160,4 @@ class Auth:
             user.id,
             hashed_password=hashed_password,
             reset_token=None)
+
