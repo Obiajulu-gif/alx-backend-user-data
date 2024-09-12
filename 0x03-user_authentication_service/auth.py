@@ -121,7 +121,8 @@ class Auth:
 
         if user is None:
             # Raise a ValueError if the user does not exist
-            raise ValueError(f"User with email {email} does not exist.")
+            raise ValueError(
+                "User with email {} does not exist.".format(email))
 
         # Generate a UUID token
         reset_token = str(uuid.uuid4())
