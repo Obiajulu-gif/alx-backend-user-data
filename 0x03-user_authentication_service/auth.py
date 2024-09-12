@@ -38,7 +38,7 @@ class Auth:
         """
         try:
             self._db.find_user_by(email=email)
-            raise ValueError("User {email} already exists")
+            raise ValueError(f"User {email} already exists")
         except NoResultFound:
             hashed_password = _hash_password(password)
             new_user = self._db.add_user(
@@ -61,6 +61,6 @@ class Auth:
         # Return False if password does not match
         return False
 
-    def _generate_uuid() -> str:
+    def _generate_uuid(self) -> str:
         """Generate a new UUID and return its string representation."""
         return str(uuid.uuid4())
