@@ -51,12 +51,12 @@ def login():
     password = request.form.get('password')
 
     # Validate email and password
-    if not auth.valid_login(email, password):
+    if not AUTH.valid_login(email, password):
         # If invalid, return 401 Unauthorized
         abort(401)
 
     # Create a new session for the user
-    session_id = auth.create_session(email)
+    session_id = AUTH.create_session(email)
 
     if session_id is None:
         # If session creation fails, return 401 Unauthorized
