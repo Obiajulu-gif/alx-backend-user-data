@@ -183,7 +183,7 @@ def update_password():
 
         # Update the password using the Auth service
         try:
-            auth.update_password(reset_token, new_password)
+            AUTH.update_password(reset_token, new_password)
         except ValueError:
             # If the reset token is invalid, return a 403 status
             return abort(403)
