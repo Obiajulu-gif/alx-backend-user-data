@@ -33,7 +33,7 @@ class Auth:
             password (str): the user password
 
         Returns:
-            User: the newly create User object.
+            User: the newly create User object
         """
         try:
             self._db.find_user_by(email=email)
@@ -43,3 +43,17 @@ class Auth:
             new_user = self._db.add_user(
                 email, hashed_password.decode('utf-8'))
             return new_user
+
+    def valid_login(self, email: str, password: str) -> bool:
+        """Validates if login details are correct."""
+        try:
+            # Locate the user by email
+            user = self._db.find_user_by(email=email)
+            # Check if the password matches using bcrypt
+            if bcrypt.checkpw(password.encode('utf-8'), user.hashed_password):
+                return True
+        except NoResultFound:
+            # If the user is not found, return False
+            return False
+        # Return False if password does not match
+        return False
